@@ -1,73 +1,113 @@
-def procesar_modalidad(tipo_modalidad):
-    if tipo_modalidad == 'R' or tipo_modalidad == 'r':
+def registro_horas():
+    print("INICIO DEL SISTEMA DE REGISTRO DE HORAS")
+    
+    # Solicitar tipo de modalidad
+    tipo_modalidad = input("¿Tipo de modalidad? (P para Presencial, R para Remoto): ").upper()
+    
+    # Verificar si es necesario registrar horas
+    if tipo_modalidad == "R":
         print("No requiere registrar horas")
-    elif tipo_modalidad == 'P' or tipo_modalidad == 'p':
-        registrar_horas_trabajadas()
+        return
+    elif tipo_modalidad == "P":
+        print("Inicia registro de horas")
     else:
-        print("El dato ingresado no es válido")
-
-def registrar_horas_trabajadas():
-    hora_minima = 9
-    hora_maxima = 18
-
-    hora_inicio = int(input("Ingrese su hora de ingreso (Ej: 9, 10, etc): "))
-    if hora_inicio >= hora_minima:
-        hora_almuerzo_inicio = int(input("¿A qué hora almorzó? (Ej: 12, 13, etc): "))
-        hora_almuerzo_fin = int(input("¿A qué hora retomó su trabajo? (Ej: 13, 14, etc): "))
-        duracion_almuerzo = hora_almuerzo_fin - hora_almuerzo_inicio
-
-        if duracion_almuerzo > 1:
-            print("⚠️ Advertencia: Se ha excedido el tiempo de almuerzo permitido (1 hora).")
-
-        hora_final = int(input("Ingrese su hora de salida (Ej: 10, 16, etc): "))
-        if hora_final <= hora_maxima:
-            if hora_final > hora_inicio:
-                horas_totales = (hora_final - hora_inicio) - duracion_almuerzo
-                print("🕒 La cantidad de horas registradas es:", horas_totales)
-                verificar_minimo_horas(horas_totales)
-
-                tarea1 = input("Ingrese una tarea realizada: ")
-                continuar = input("¿Desea agregar otra tarea? (S/N): ")
-                if continuar.lower() == 's':
-                    tarea2 = input("Ingrese otra tarea realizada: ")
-                    continuar2 = input("¿Desea agregar otra tarea más? (S/N): ")
-                    if continuar2.lower() == 's':
-                        tarea3 = input("Ingrese otra tarea más: ")
-                        mostrar_resumen(horas_totales, tarea1, tarea2, tarea3)
-                    else:
-                        mostrar_resumen(horas_totales, tarea1, tarea2)
-                else:
-                    mostrar_resumen(horas_totales, tarea1)
-
-            else:
-                print("❌ La hora de salida debe ser mayor que la de ingreso")
+        print("Error: Modalidad inválida. Debe ser P o R.")
+        return
+    
+    # Solicitar hora de ingreso
+    hora_ingreso = float(input("Ingrese la hora de entrada (formato 24 horas, ej: 8.30): "))
+    
+    # Verificar si la hora de ingreso es válida
+    if hora_ingreso > 9.00:
+        print("Error: Hora de ingreso inválido. Debe ser antes de las 9:00.")
+        return
+    
+    # Solicitar hora de salida
+    hora_salida = float(input("Ingrese la hora de salida (formato 24 horas, ej: 17.30): "))
+    
+    # Verificar si la hora de salida es mayor que la hora de entrada
+    if not (hora_salida > hora_ingreso):
+        print("Error: Horario inválido. La hora de salida debe ser posterior a la hora de entrada.")
+        return
+    
+    # Verificar si la hora de salida es adecuada
+    if hora_salida <= 18.00:
+        print("Jornada correcta")
+    else:
+        print("Error: Hora de salida inválido. Debe ser antes de las 18:00.")
+        return
+    
+    # Calcular horas trabajadas antes de considerar el almuerzo
+    horas_totales = hora_salida - hora_ingreso
+    
+    # Solicitar tiempo de almuerzo
+    tiempo_almuerzo = float(input("Ingrese el tiempo de almuerzo en horas (ej: 1.0): "))
+    
+    # Verificar si el tiempo de almuerzo es adecuado
+    if tiempo_almuerzo < 1.0:
+        print("Mostrar advertencia: El tiempo de almuerzo es menor a una hora.")
+    
+    # Restar el tiempo de almuerzo a las horas totales
+    horas_efectivas = horas_totales - tiempo_almuerzo
+    
+    # Verificar si se cumplieron las horas mínimas
+    if horas_efectivas >= 6:
+        print(f"Horas trabajadas: {horas_efectivas}")
+    else:
+        print("Advertencia: Horas insuficientes. Debe trabajar al menos 6 horas efectivas.")
+    
+    # Registro de tareas
+    primera_tarea = input("Ingrese la primera tarea realizada: ")
+    
+    # Preguntar si desea agregar otra tarea
+    agregar_tarea = input("¿Desea agregar otra tarea? (S/N): ").upper()
+    
+    if agregar_tarea == "S":
+        # Solicitar segunda tarea
+        segunda_tarea = input("Ingrese la segunda tarea realizada: ")
+        
+        # Preguntar si desea agregar otra tarea más
+        agregar_tarea = input("¿Desea agregar otra tarea? (S/N): ").upper()
+        
+        if agregar_tarea == "S":
+            # Solicitar tercera tarea
+            tercera_tarea = input("Ingrese la tercera tarea realizada: ")
+            
+            # Mostrar resumen con 3 tareas
+            print("\nRESUMEN DE JORNADA:")
+            print(f"Modalidad: Presencial")
+            print(f"Hora de entrada: {hora_ingreso}")
+            print(f"Hora de salida: {hora_salida}")
+            print(f"Tiempo de almuerzo: {tiempo_almuerzo} horas")
+            print(f"Horas efectivas trabajadas: {horas_efectivas}")
+            print("Tareas realizadas:")
+            print(f"  1. {primera_tarea}")
+            print(f"  2. {segunda_tarea}")
+            print(f"  3. {tercera_tarea}")
         else:
-            print("❌ La hora de salida no puede ser mayor a las 18:00")
+            
+            print("\nRESUMEN DE JORNADA:")
+            print(f"Modalidad: Presencial")
+            print(f"Hora de entrada: {hora_ingreso}")
+            print(f"Hora de salida: {hora_salida}")
+            print(f"Tiempo de almuerzo: {tiempo_almuerzo} horas")
+            print(f"Horas efectivas trabajadas: {horas_efectivas}")
+            print("Tareas realizadas:")
+            print(f"  1. {primera_tarea}")
+            print(f"  2. {segunda_tarea}")
     else:
-        print("❌ La hora de ingreso no puede ser menor a las 9:00")
+        # Mostrar resumen con 1 tarea
+        print("\nRESUMEN DE JORNADA:")
+        print(f"Modalidad: Presencial")
+        print(f"Hora de entrada: {hora_ingreso}")
+        print(f"Hora de salida: {hora_salida}")
+        print(f"Tiempo de almuerzo: {tiempo_almuerzo} horas")
+        print(f"Horas efectivas trabajadas: {horas_efectivas}")
+        print("Tareas realizadas:")
+        print(f"  1. {primera_tarea}")
+    
+    print("FIN DEL REGISTRO")
 
-def verificar_minimo_horas(horas_trabajadas):
-    minimo_horas = 6
-    if horas_trabajadas < minimo_horas:
-        print(f"⚠️ Advertencia: Las horas trabajadas ({horas_trabajadas}) son menores al mínimo requerido de {minimo_horas} horas.")
-    else:
-        print("✅ Jornada laboral registrada correctamente.")
-
-def mostrar_resumen(horas_totales, tarea1, tarea2=None, tarea3=None):
-    print("\n📝 RESUMEN DE LA JORNADA")
-    print(f"Total de horas trabajadas (sin contar almuerzo): {horas_totales}")
-    print("Tareas realizadas:")
-    print(f"1. {tarea1}")
-    if tarea2 is not None:
-        print(f"2. {tarea2}")
-    if tarea3 is not None:
-        print(f"3. {tarea3}")
-    print("✅ Gracias por registrar su jornada.")
-
-def iniciar_programa():
-    tipo_modalidad = input("Ingrese la modalidad de su puesto Remoto(R), Presencial(P): ")
-    procesar_modalidad(tipo_modalidad)
-
-iniciar_programa()
-
+if __name__ == "__main__":
+    registro_horas()
 
