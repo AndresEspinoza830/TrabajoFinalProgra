@@ -1,3 +1,4 @@
+#COMENTARIO PRUEBA
 def solicitar_modalidad():
     modalidad = input("¿Tipo de modalidad? (P para Presencial, R para Remoto): ").upper()
     if modalidad == "R":
