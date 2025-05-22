@@ -37,7 +37,7 @@ def calcular_horas_efectivas(hora_ingreso, hora_salida):
     if efectivas >= 6:
         print(f"Horas trabajadas: {efectivas}")
     else:
-        print("Advertencia: Horas insuficientes. Debe trabajar al menos 6 horas efectivas.")
+        print("Advertencia: Horas insuficientes. Debe trabajar al menos 6 horas efectivas. Se notificará a su líder")
     return efectivas, almuerzo
 
 def registrar_tareas():
@@ -52,7 +52,7 @@ def registrar_tareas():
 
 def mostrar_resumen(hora_ingreso, hora_salida, tiempo_almuerzo, horas_efectivas, tareas):
     print("\nRESUMEN DE JORNADA:")
-    print(f"Modalidad: Presencial")
+    print("Modalidad: Presencial")
     print(f"Hora de entrada: {hora_ingreso}")
     print(f"Hora de salida: {hora_salida}")
     print(f"Tiempo de almuerzo: {tiempo_almuerzo} horas")
